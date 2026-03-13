@@ -21,7 +21,7 @@
 	"r2_buckets": [
 		{
 		"binding": "STORAGE_BUCKET", // <~ valid JavaScript variable name
-		"bucket_name": "UPLOADS_BUCKET"
+		"bucket_name": "uploads-bucket"
 		}
   	]
 
