@@ -17,7 +17,7 @@ export default {
 	async fetch(req, env) {
 		const url = new URL(req.url)
 
-		const formData = await request.formData();
+		const formData = await req.formData();
 		const files = formData.getAll("images");
 
 		if (!files.length) {
