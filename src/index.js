@@ -16,36 +16,54 @@ import {v4 as uuidv4} from 'uuid';
 export default {
 	async fetch(req, env) {
 		const url = new URL(req.url)
+    	const path = url.pathname;
 
-		const formData = await req.formData();
-		const files = formData.getAll("images");
+		if (path.startsWith("/files/")) {
+			const prefix = path.split("/")[2];			
 
-		if (!files.length) {
-		return new Response("No files uploaded", { status: 400 });
-		}
-
-		const uploaded = [];
-
-		const uuid = uuidv4();
-
-		for (const file of files) {
-			if (!(file instanceof File)) continue;
-
-			const key = `uploads/${uuid}/${file.name}`;
-
-			await env.STORAGE_BUCKET.put(key, file.stream(), {
-				httpMetadata: {
-				contentType: file.type
-				}
+			const result = await env.STORAGE_BUCKET.list({
+				prefix,
+				delimiter: "/"
 			});
 
-			uploaded.push(key);
-		}
+			return Response.json({
+				folders: result.delimitedPrefixes,
+				files: result.objects.map(o => o.key)
+    		});
 
-		return Response.json({
-			success: true,
-			files: uploaded,
-			key: uuid
-		});
+		}
+		
+		if (path === "/upload" && request.method === "POST") {
+			const formData = await req.formData();
+			const files = formData.getAll("files");
+
+			if (!files.length) {
+				return new Response("No files uploaded", { status: 400 });
+			}
+
+			const uploaded = [];
+
+			const uuid = uuidv4();
+
+			for (const file of files) {
+				if (!(file instanceof File)) continue;
+
+				const key = `uploads/${uuid}/${file.name}`;
+
+				await env.STORAGE_BUCKET.put(key, file.stream(), {
+					httpMetadata: {
+						contentType: file.type
+					}
+				});
+
+				uploaded.push(key);
+			}
+
+			return Response.json({
+				success: true,
+				files: uploaded,
+				key: uuid
+			});
+		}
 	}
 };
