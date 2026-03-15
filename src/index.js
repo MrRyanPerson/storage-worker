@@ -34,7 +34,7 @@ export default {
 
 		}
 		
-		if (path === "/upload" && request.method === "POST") {
+		if (path === "/upload" && req.method === "POST") {
 			const formData = await req.formData();
 			const files = formData.getAll("files");
 
