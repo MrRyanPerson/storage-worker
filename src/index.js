@@ -19,7 +19,8 @@ export default {
     	const path = url.pathname;
 
 		if (path.startsWith("/files/")) {
-			const prefix = "uploads/" + path.split("/")[2]; + "/"
+			const id = path.split("/")[2];
+			const prefix = `uploads/${id}/`
 
 			const result = await env.STORAGE_BUCKET.list({
 				prefix,
