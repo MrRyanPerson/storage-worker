@@ -30,7 +30,11 @@ export default {
 			return Response.json({
 				folders: result.delimitedPrefixes,
 				files: result.objects.map(o => o.key)
-    		});
+    		},
+			{
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			}});
 
 		}
 		
@@ -64,6 +68,10 @@ export default {
 				success: true,
 				files: uploaded,
 				key: uuid
+			}, {
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			},
 			});
 		}
 	}
