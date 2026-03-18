@@ -11,7 +11,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import {v4 as uuidv4} from 'uuid';
+import cryptoRandomString from 'crypto-random-string';
 
 export default {
 	async fetch(req, env) {
@@ -48,7 +48,7 @@ export default {
 
 			const uploaded = [];
 
-			const uuid = uuidv4();
+			const uuid = cryptoRandomString({length: 8, characters: 'ABCDEFGHJKLMNPQRSTUVWXYZ12345679'});
 
 			for (const file of files) {
 				if (!(file instanceof File)) continue;

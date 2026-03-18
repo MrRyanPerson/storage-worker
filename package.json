@@ -11,6 +11,6 @@
 		"wrangler": "^4.73.0"
 	},
 	"dependencies": {
-		"uuid": "^13.0.0"
+		"crypto-random-string": "^5.0.0"
 	}
 }
