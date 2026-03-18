@@ -28,7 +28,6 @@ export default {
 			});
 
 			return Response.json({
-				folders: result.delimitedPrefixes,
 				files: result.objects.map(o => o.key)
     		},
 			{
